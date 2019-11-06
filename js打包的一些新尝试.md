@@ -65,7 +65,7 @@ GitHub仓库：[js-build-by-feature-map-demo](https://github.com/ganshuai/js-bui
 
 ## js-build-by-feature-map
 
-*js-build-by-feature-map是为了实现根据浏览器特性动态构建前端js代码的工具，它依赖与webpack*
+*js-build-by-feature-map是为了实现根据浏览器特性动态构建前端js代码的工具，它依赖与webpack。相较于之前的静态打包方式，js-build-by-feature-map能实现根据浏览器特性生成适配浏览器的js代码。*
 
 js-build-by-feature-map分为如下几个部分：
 
