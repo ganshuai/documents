@@ -1,7 +1,7 @@
 
 ## 背景
 
-之前在看《你不知道的JavaScript》的时，作者在`7.6`节提到**特性测试**
+之前在看《你不知道的JavaScript》的时，作者在`7.6`节提到**特性测试**，引用原文如下：
 
 > 什么是特性测试?就是一种由你运行的用来判断一个特性是否可用的测试。 
 >
@@ -48,9 +48,15 @@
 
 ## 先看demo
 
-首先，我们先看一下demo。效果截图（在chrome上，打包前后的代码对比）：
+首先，我们先看一下demo。
+
+chrome76打包前后的代码对比：
 
 ![demo](./file/demo.png)
+
+IE9打包前后的代码对比：
+
+![ie9](./file/ie9.png)
 
 GitHub仓库：[js-build-by-feature-map-demo](https://github.com/ganshuai/js-build-by-feature-map-demo.git)
 
@@ -71,7 +77,7 @@ js-build-by-feature-map分为如下几个部分：
 
 1. [js-feature-test](https://github.com/ganshuai/js-feature-test.git)：测试浏览器对js新特性的兼容
 2. [js-build-by-feature-map](https://github.com/ganshuai/js-build-by-feature-map.git)：生成webpac config，并使用js-build-by-feature-map-loader打包js
-3. [js-build-by-feature-map-loader](https://github.com/ganshuai/js-build-by-feature-map-loader.git)：利用babel以及babel-plugin转化js代码
+3. [js-build-by-feature-map-loader](https://github.com/ganshuai/js-build-by-feature-map-loader.git)：利用babel以及babel-plugin转化js代码，被js-build-by-feature-map引入，**不需要在单独使用**
 4. [js-build-by-feature-map-express-service](https://github.com/ganshuai/js-build-by-feature-map-express-service.git)：利用js-feature-test、js-build-by-feature-map和express来提供根据浏览器特性来转化js代码的功能。可以极大的简化js-feature-test和js-build-by-feature-map的使用。
 5. [js-build-by-feature-map-demo](https://github.com/ganshuai/js-build-by-feature-map-demo.git)：一个利用js-build-by-feature-map-express-service实现的demo，用来说明js-build-by-feature-express-service的使用方式和效果
 6. [js-build-by-feature-map-template](https://github.com/ganshuai/js-build-by-feature-map-template.git)：一个使用js-build-by-feature-map-express-service的简单模版，使用此模版能快速的使用js-build-by-feature-map-express-service来提供动态编译服务
@@ -86,12 +92,11 @@ js-build-by-feature-map分为如下几个部分：
 
 这当然不能说明它没有意义/作用。我个人认为它有如下作用：
 
-1. 减小js打包大小（一定程度）
-2. 提升js运行性能（一定程度和部分浏览器）
-3. 更面向未来
-4. 降级方案更合理
-5. 更易于调试（一定程度）
-6. 提高打包速度（一定程度）
+1. 减小js打包大小（一定程度）：因为浏览器已经兼容的代码不在需要转化，所以大大减少了转化代码。从而减少了打包大小
+2. 提升js运行性能（一定程度和部分浏览器）：为了兼容而做的转化大部分时候都不浏览器自己的实现运行速度慢
+4. 降级方案更合理：只对浏览器不兼容的特性做转化是更加合理的降级方案
+5. 更易于调试（一定程度）：转化代码大部分时候都会让调试变得困难，比如await、async语法的转化
+6. 提高打包速度（一定程度）：需要转化的代码变少了，自然打包速度变快了
 
 当然，目前而言这些作用带来的提升都不明显。同时，目前要将**这种方式部署到生产环境还不成熟**。
 
@@ -137,7 +142,7 @@ js-build-by-feature-map分为如下几个部分：
 10. 不同的featureMap拥有不同的打包状态和输出目录
 11. 当打包完成以后，service将所有js请求利用express的static返回输出目录里面的js文件
 
-*备注：目前，webpack的配置需要启用watch:true，否者同一个页面里面每一个js请求都会触发对工程的重新编译打包。同时，service调用配置必须启用isDifferentFile: true，将不同特性的js输出到不同目录，否者后面的打包会覆盖前面打包的输出文件。*
+*备注：目前，webpack的配置需要启用watch:true，否则同一个页面里面每一个js请求都会触发对工程的重新编译打包。同时，service调用配置必须启用isDifferentFile: true，将不同特性的js输出到不同目录，否则后面打包会覆盖前面打包的输出文件。*
 
 
 
