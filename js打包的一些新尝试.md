@@ -162,4 +162,4 @@ js-build-by-feature-map分为如下几个部分：
 
 
 
-*对于js-build-by-feature-map，我的目标是能将服务部署到生产环境。*
+*对于js-build-by-feature-map，目标是能将服务部署到生产环境。*
